@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sorting Application</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         .result-numbers {
             word-wrap: break-word;
@@ -18,319 +17,120 @@
     <div class="container mt-5">
         <h1 class="mb-4">Sorting Application</h1>
         
-        <div id="alert-container"></div>
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
         
+        <!-- Tab Navigation -->
         <ul class="nav nav-tabs" id="inputTabs" role="tablist">
             <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="keyboard-tab" data-bs-toggle="tab" data-bs-target="#keyboard" type="button" role="tab">Keyboard Input</button>
+                <a class="nav-link {% if active_tab != 'file' and active_tab != 'samefile' and active_tab != 'network' %}active{% endif %}" 
+                   href="#keyboard" data-bs-toggle="tab" role="tab">Keyboard Input</a>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="file-tab" data-bs-toggle="tab" data-bs-target="#file" type="button" role="tab">Input Redirection (File)</button>
+                <a class="nav-link {% if active_tab == 'file' %}active{% endif %}" 
+                   href="#file" data-bs-toggle="tab" role="tab">Input Redirection (File)</a>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="samefile-tab" data-bs-toggle="tab" data-bs-target="#samefile" type="button" role="tab">Same File I/O</button>
+                <a class="nav-link {% if active_tab == 'samefile' %}active{% endif %}" 
+                   href="#samefile" data-bs-toggle="tab" role="tab">Same File I/O</a>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="network-tab" data-bs-toggle="tab" data-bs-target="#network" type="button" role="tab">Network Input</button>
+                <a class="nav-link {% if active_tab == 'network' %}active{% endif %}" 
+                   href="#network" data-bs-toggle="tab" role="tab">Network Input</a>
             </li>
         </ul>
         
+        <!-- Tab Content -->
         <div class="tab-content p-4 border border-top-0 rounded-bottom">
             <!-- Keyboard Input Tab -->
-            <div class="tab-pane fade show active" id="keyboard" role="tabpanel">
+            <div class="tab-pane fade {% if active_tab != 'file' and active_tab != 'samefile' and active_tab != 'network' %}show active{% endif %}" id="keyboard" role="tabpanel">
                 <h3>Keyboard Input</h3>
-                <form id="keyboard-form">
+                <form action="/sort" method="post">
                     <div class="mb-3">
-                        <label for="input_text" class="form-label">Enter numbers (separated by spaces):</label>
+                        <label for="input_text" class="form-label">Enter values to sort (separated by spaces):</label>
                         <textarea class="form-control" id="input_text" name="input_text" rows="5"></textarea>
+                        <div class="form-text">Supports integers, decimals, and text</div>
                     </div>
-                    <input type="hidden" name="action_type" value="keyboard">
+                    <input type="hidden" name="input_method" value="keyboard">
                     <button type="submit" class="btn btn-primary">Sort</button>
                 </form>
             </div>
             
             <!-- File Input Tab -->
-            <div class="tab-pane fade" id="file" role="tabpanel">
+            <div class="tab-pane fade {% if active_tab == 'file' %}show active{% endif %}" id="file" role="tabpanel">
                 <h3>Input Redirection (File)</h3>
-                <form id="file-form" enctype="multipart/form-data">
+                <form action="/sort" method="post" enctype="multipart/form-data">
                     <div class="mb-3">
-                        <label for="file-input" class="form-label">Upload file with numbers:</label>
+                        <label for="file-input" class="form-label">Upload file with values:</label>
                         <input type="file" class="form-control" id="file-input" name="file">
                         <div class="form-text">File will be read and results displayed on screen</div>
                     </div>
-                    <input type="hidden" name="action_type" value="file">
+                    <input type="hidden" name="input_method" value="file">
                     <button type="submit" class="btn btn-primary">Upload and Sort</button>
                 </form>
             </div>
             
             <!-- Same File I/O Tab -->
-            <div class="tab-pane fade" id="samefile" role="tabpanel">
+            <div class="tab-pane fade {% if active_tab == 'samefile' %}show active{% endif %}" id="samefile" role="tabpanel">
                 <h3>Same File Input/Output</h3>
-                <form id="samefile-form" enctype="multipart/form-data">
+                <form action="/sort" method="post" enctype="multipart/form-data">
                     <div class="mb-3">
-                        <label for="same-file-input" class="form-label">Upload file with numbers:</label>
+                        <label for="same-file-input" class="form-label">Upload file with values:</label>
                         <input type="file" class="form-control" id="same-file-input" name="file">
                         <div class="form-text">File will be sorted and overwritten with sorted data</div>
                     </div>
-                    <input type="hidden" name="action_type" value="same_file">
+                    <input type="hidden" name="input_method" value="samefile">
                     <button type="submit" class="btn btn-primary">Sort In-Place</button>
                 </form>
-                <div id="download-link-container" class="mt-3 d-none">
-                    <a href="#" id="download-link" class="btn btn-success">Download Sorted File</a>
+                
+                {% if download_filename %}
+                <div class="mt-3">
+                    <a href="{{ url_for('download_file', filename=download_filename) }}" class="btn btn-success">Download Sorted File</a>
                 </div>
+                {% endif %}
             </div>
             
             <!-- Network Input Tab -->
-            <div class="tab-pane fade" id="network" role="tabpanel">
+            <div class="tab-pane fade {% if active_tab == 'network' %}show active{% endif %}" id="network" role="tabpanel">
                 <h3>Network Input</h3>
-                <div id="network-controls">
-                    <form id="network-form">
-                        <div class="mb-3">
-                            <label for="host" class="form-label">Host:</label>
-                            <input type="text" class="form-control" id="host" name="host" value="localhost">
-                        </div>
-                        <div class="mb-3">
-                            <label for="port" class="form-label">Port:</label>
-                            <input type="number" class="form-control" id="port" name="port" value="8080">
-                        </div>
-                        <input type="hidden" name="action_type" value="network">
-                        <button type="submit" class="btn btn-primary">Start Network Listener</button>
-                    </form>
-                </div>
-                
-                <div id="network-waiting" class="mt-3 d-none">
-                    <div class="alert alert-info">
-                        <div id="network-status">Waiting for data...</div>
-                        <div id="network-spinner" class="spinner-border spinner-border-sm mt-2" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
+                <form action="/sort" method="post">
+                    <div class="mb-3">
+                        <label for="host" class="form-label">Host:</label>
+                        <input type="text" class="form-control" id="host" name="host" value="localhost">
                     </div>
-                </div>
+                    <div class="mb-3">
+                        <label for="port" class="form-label">Port:</label>
+                        <input type="number" class="form-control" id="port" name="port" value="8080">
+                    </div>
+                    <input type="hidden" name="input_method" value="network">
+                    <button type="submit" class="btn btn-primary">Fetch and Sort</button>
+                </form>
             </div>
         </div>
         
         <!-- Results Display -->
-        <div id="results-container" class="mt-4 d-none">
-            <h3>Sorted Results</h3>
+        {% if sorted_data is defined and sorted_data %}
+        <div class="mt-4">
+            <h3>Sorted Results {% if result_source %}(from {{ result_source }}){% endif %}</h3>
             <div class="alert alert-success">
-                <p id="result-summary" class="mb-2"></p>
-                <div class="result-numbers" id="sorted-result"></div>
+                <p class="mb-2"><strong>{{ item_count }} items sorted</strong></p>
+                <div class="result-numbers">
+                    {{ sorted_data|join(', ') }}
+                </div>
             </div>
         </div>
+        {% endif %}
     </div>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <script>
-        // Initial setup
-        $(document).ready(function() {
-            // Check network status on page load
-            var initialNetworkStatus = '{{ network_status }}';
-            if (initialNetworkStatus === 'listening' || initialNetworkStatus === 'starting') {
-                $('#network-tab').tab('show');
-                $('#network-waiting').removeClass('d-none');
-                $('#network-controls').addClass('d-none');
-                startNetworkPolling();
-            } else if (initialNetworkStatus === 'received') {
-                $('#network-tab').tab('show');
-                
-                // Display network results in the main results container
-                var networkResults = [];
-                {% if network_results %}
-                    networkResults = {{ network_results|tojson }};
-                {% endif %}
-                
-                showResults('network', networkResults, 'API Server');
-            } else if (initialNetworkStatus === 'error') {
-                $('#network-tab').tab('show');
-                showAlert('Error receiving data from the network', 'danger');
-            }
-            
-            // Set up form submissions
-            setupFormHandlers();
-        });
-        
-        function setupFormHandlers() {
-            // Keyboard form
-            $('#keyboard-form').on('submit', function(e) {
-                e.preventDefault();
-                
-                $.ajax({
-                    url: '/action',
-                    type: 'POST',
-                    data: $(this).serialize(),
-                    success: function(response) {
-                        if (response.success) {
-                            showResults(
-                                response.input_method, 
-                                response.sorted_numbers,
-                                null
-                            );
-                        } else {
-                            showAlert(response.error || 'An error occurred', 'danger');
-                        }
-                    },
-                    error: function() {
-                        showAlert('Server error', 'danger');
-                    }
-                });
-            });
-            
-            // File form
-            $('#file-form').on('submit', function(e) {
-                e.preventDefault();
-                
-                var formData = new FormData(this);
-                
-                $.ajax({
-                    url: '/action',
-                    type: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function(response) {
-                        if (response.success) {
-                            showResults(
-                                response.input_method, 
-                                response.sorted_numbers,
-                                response.file_name || null
-                            );
-                        } else {
-                            showAlert(response.error || 'An error occurred', 'danger');
-                        }
-                    },
-                    error: function() {
-                        showAlert('Server error', 'danger');
-                    }
-                });
-            });
-            
-            // Same file form
-            $('#samefile-form').on('submit', function(e) {
-                e.preventDefault();
-                
-                var formData = new FormData(this);
-                
-                $.ajax({
-                    url: '/action',
-                    type: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function(response) {
-                        if (response.success) {
-                            $('#download-link').attr('href', response.download_url);
-                            $('#download-link-container').removeClass('d-none');
-                            showAlert('File sorted successfully! Click the button to download.', 'success');
-                        } else {
-                            showAlert(response.error || 'An error occurred', 'danger');
-                        }
-                    },
-                    error: function() {
-                        showAlert('Server error', 'danger');
-                    }
-                });
-            });
-            
-            // Network form
-            $('#network-form').on('submit', function(e) {
-                e.preventDefault();
-                
-                // Reset previous results
-                $('#results-container').addClass('d-none');
-                
-                var formData = new FormData(this);
-                
-                $.ajax({
-                    url: '/action',
-                    type: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function(response) {
-                        if (response.success) {
-                            // Show waiting indicator
-                            $('#network-waiting').removeClass('d-none');
-                            $('#network-controls').addClass('d-none');
-                            
-                            // Start polling for status
-                            startNetworkPolling();
-                        } else {
-                            showAlert(response.error || 'An error occurred', 'danger');
-                        }
-                    },
-                    error: function() {
-                        showAlert('Server error', 'danger');
-                    }
-                });
-            });
-        }
-        
-        function showResults(inputMethod, sortedNumbers, fileName) {
-            // Format the numbers for display, limit to first 1000 if very large
-            let displayData;
-            let resultSummary = '';
-            
-            displayData = sortedNumbers.join(', ');
-            resultSummary = `${sortedNumbers.length} numbers sorted`;
-            
-            // Set the result title based on input method
-            let resultTitle = 'Sorted Results';
-            if (inputMethod === 'keyboard') {
-                resultTitle += ' (from Keyboard Input)';
-            } else if (inputMethod === 'file') {
-                resultTitle += ` (from File: ${fileName || 'uploaded file'})`;
-            } else if (inputMethod === 'same_file') {
-                resultTitle += ` (saved to: ${fileName || 'uploaded file'})`;
-            } else if (inputMethod === 'network') {
-                resultTitle += ` (from ${fileName || 'Network API'})`;
-                
-                // For network, also hide the waiting indicator and restore the form
-                $('#network-waiting').addClass('d-none');
-                $('#network-controls').removeClass('d-none');
-            }
-            
-            // Update the results container
-            $('#results-container').removeClass('d-none');
-            $('#results-container h3').text(resultTitle);
-            $('#result-summary').text(resultSummary);
-            $('#sorted-result').text(displayData);
-            
-            // Scroll to results
-            $('html, body').animate({
-                scrollTop: $('#results-container').offset().top
-            }, 500);
-        }
-        
-        function showAlert(message, type) {
-            $('#alert-container').html(
-                '<div class="alert alert-' + type + ' alert-dismissible fade show" role="alert">' +
-                message +
-                '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
-                '</div>'
-            );
-        }
-        
-        function startNetworkPolling() {
-            var pollInterval = setInterval(function() {
-                $.getJSON('/check_network_status', function(data) {
-                    if (data.status === 'received') {
-                        clearInterval(pollInterval);
-                        
-                        // Display sorted results in the main results container
-                        showResults('network', data.sorted_numbers, 'Network API');
-                    } 
-                    else if (data.status === 'error') {
-                        clearInterval(pollInterval);
-                        
-                        // Hide the waiting indicator and show error
-                        $('#network-waiting').addClass('d-none');
-                        $('#network-controls').removeClass('d-none');
-                        showAlert('Error receiving data from the network', 'danger');
-                    }
-                });
-            }, 1000); // Poll every second
-        }
-    </script>
 </body>
 </html>

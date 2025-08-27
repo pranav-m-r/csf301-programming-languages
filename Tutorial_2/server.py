@@ -28,7 +28,7 @@ def get_random_numbers():
 
 if __name__ == "__main__":
     # Parse command line arguments
-    host = '0.0.0.0'  # Listen on all interfaces
+    host = '0.0.0.0'
     port = 8080
     
     # Allow command line overrides

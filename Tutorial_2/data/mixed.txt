@@ -1,0 +1,20 @@
+apple 3.14159 42 banana -1.5 cherry 123 date 0.00001
+100 elderberry fig -99.9 grape honeydew 777 kiwi 1.23456e2 lemon
+mango 2048 nectarine orange -10.5 papaya 65536 quince 
+777 raspberry 3.14159 strawberry -2.25 tangerine 99.9 ugli valencia 42 watermelon
+zebra 123.456 yak xenops 0.5 wombat -0.0001 vulture unicorn 1000.001 tiger 
+apple 3.14159 42 banana -1.5 cherry 123 date 0.00001
+100 elderberry fig -99.9 grape honeydew 777 kiwi 1.23456e2 lemon
+mango 2048 nectarine orange -10.5 papaya 65536 quince 
+Alpha 3.14159 Beta 42 Gamma -1.5 Delta 123 Epsilon 0.00001
+Nu 100 Xi -99.9 Omicron 777 Pi 1.23456e2 Rho
+hello 2048 world -10.5 programming 65536 language
+apple 3.14159 42 banana -1.5 cherry 123 date 0.00001
+100 elderberry fig -99.9 grape honeydew 777 kiwi 1.23456e2 lemon
+zebra 123.456 yak xenops 0.5 wombat -0.0001 vulture unicorn 1000.001 tiger
+apple 3.14159 42 banana -1.5 cherry 123 date 0.00001
+mango 2048 nectarine orange -10.5 papaya 65536 quince 
+Alpha 3.14159 Beta 42 Gamma -1.5 Delta 123 Epsilon 0.00001
+Nu 100 Xi -99.9 Omicron 777 Pi 1.23456e2 Rho
+hello 2048 world -10.5 programming 65536 language
+data 3.14159 structure 42 algorithm -1.5 sorting 123 searching 0.00001
