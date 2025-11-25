@@ -1,0 +1,44 @@
+Sorting and Searching Algorithms
+
+Sorting Algorithms
+
+Sorting is the process of arranging data in a particular order. There are many different
+sort algorithms, each with its own characteristics.
+
+Bubble Sort: A simple sort algorithm that repeatedly steps through the list, compares
+adjacent elements, and swaps them if they are in the wrong order. This algorithm is easy
+to understand but not efficient for large data sets.
+
+Quick Sort: A divide-and-conquer algorithm that picks an element as a pivot and partitions
+the array around the pivot. Quick sort is generally faster than bubble sort.
+
+Merge Sort: Another divide-and-conquer algorithm that divides the array into halves, sorts
+them recursively, and then merges them back. Merge sort is stable and has O(n log n) time.
+
+Heap Sort: Uses a binary tree structure called a heap to sort elements. The algorithm first
+builds a heap from the data, then repeatedly extracts the maximum element.
+
+Searching Algorithms
+
+Search algorithms are used to find specific elements in a data structure.
+
+Linear Search: The simplest search algorithm. It sequentially checks each element of the
+list until a match is found. Linear search works on unsorted lists but can be slow.
+
+Binary Search: A much faster search algorithm that works on sorted arrays. It repeatedly
+divides the search interval in half. Binary search has O(log n) time complexity.
+
+Choosing the Right Algorithm
+
+The choice of algorithm depends on:
+- The size of the data
+- Whether the data is already partially sorted
+- Memory constraints
+- Whether the data structure supports random access
+
+For small data sets, simple algorithms like bubble sort might be sufficient. For larger
+data sets, more efficient algorithms like quick sort or merge sort are preferred.
+
+Understanding these algorithms requires knowledge of recursion and iteration. Many sorting
+algorithms use recursion to break down the problem into smaller subproblems. Understanding
+loop structures is also essential for implementing iteration-based algorithms.

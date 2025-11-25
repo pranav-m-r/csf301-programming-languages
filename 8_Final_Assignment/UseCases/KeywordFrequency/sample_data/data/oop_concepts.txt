@@ -1,0 +1,38 @@
+Object-Oriented Programming Concepts
+
+Object-oriented programming (OOP) is a programming paradigm based on the concept of objects.
+Objects can contain data in the form of fields (often known as attributes or properties) and
+code in the form of procedures (often known as methods or functions).
+
+The Four Pillars of OOP:
+
+1. Encapsulation
+   Encapsulation is the bundling of data with the methods that operate on that data.
+   A class provides encapsulation by keeping data and function together.
+   This helps in data hiding and abstraction.
+
+2. Abstraction
+   Abstraction means hiding the complex implementation details and showing only the
+   necessary features of an object. Abstraction helps reduce programming complexity.
+   Through abstraction, we can focus on what an object does rather than how it does it.
+
+3. Inheritance
+   Inheritance is a mechanism where a new class inherits properties and behavior from
+   an existing class. The class being inherited from is called the parent class, and
+   the class that inherits is called the child class. Inheritance promotes code reuse.
+
+4. Polymorphism
+   Polymorphism allows objects of different classes to be treated as objects of a common
+   parent class. This enables one function to work with different types of objects.
+   Polymorphism is achieved through method overriding and method overloading.
+
+In object-oriented programming, a class is a blueprint for creating objects. Each object
+is an instance of a class. A class defines the structure (data) and behavior (function)
+that objects of that class will have.
+
+Programming in an object-oriented style requires thinking in terms of objects and their
+interactions. This is different from procedural programming where the focus is on
+functions and the sequence of actions.
+
+Variables in OOP are typically encapsulated within objects as instance variables.
+Each object maintains its own copy of these variables, providing data isolation.
