@@ -29,9 +29,6 @@ This CLI tool wraps the HeteroList library, allowing external programs (like Pyt
 ## Build
 
 ```bash
-# Navigate to CLIApp directory
-cd 8_Final_Assignment/UseCases/CLIApp
-
 # Compile with C++17
 g++ -std=c++17 -o hetero_cli hetero_cli.cpp
 ```
