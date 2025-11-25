@@ -14,7 +14,7 @@ A command-line application that scans text files in a directory and counts occur
 ## Usage
 
 ```
-KeywordFrequency.exe <data_directory> <keyword_file>
+./KeywordFrequency <data_directory> <keyword_file>
 ```
 
 ### Arguments
@@ -28,10 +28,10 @@ KeywordFrequency.exe <data_directory> <keyword_file>
 
 ```bash
 # Compile (requires C++17 for std::filesystem)
-g++ -std=c++17 -o KeywordFrequency.exe KeywordFrequency.cpp
+g++ -std=c++17 -o KeywordFrequency KeywordFrequency.cpp
 
 # Run with sample data
-./KeywordFrequency.exe sample_data/data sample_data/keywords.txt
+./KeywordFrequency sample_data/data sample_data/keywords.txt
 ```
 
 ## Sample Data
@@ -297,7 +297,7 @@ results.forEach(/* print */);
 ```
 KeywordFrequency/
 ├── KeywordFrequency.cpp    # Main application
-├── KeywordFrequency.exe    # Compiled executable
+├── KeywordFrequency        # Compiled executable (after build)
 ├── README.md               # This file
 └── sample_data/
     ├── keywords.txt        # 25 keywords to search for

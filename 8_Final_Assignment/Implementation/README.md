@@ -742,9 +742,6 @@ g++ -std=c++17 -o myprogram myprogram.cpp
 
 # clang++
 clang++ -std=c++17 -o myprogram myprogram.cpp
-
-# MSVC
-cl /std:c++17 myprogram.cpp
 ```
 
 ### File Structure
