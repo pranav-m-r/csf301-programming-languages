@@ -752,7 +752,7 @@ This will:
 ### 11.4 Project Structure
 
 ```
-8_Final_Assignment/
+Final_Assignment/
 ├── Implementation/          # Core library (header-only)
 │   ├── myList.hpp          # Main include file
 │   ├── Value.hpp           # Type-erased value wrapper

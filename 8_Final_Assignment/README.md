@@ -3,7 +3,7 @@
 ## Project Structure
 
 ```
-8_Final_Assignment/
+Final_Assignment/
 ├── Implementation/          # Core library (header-only)
 │   ├── myList.hpp          # Main include file
 │   ├── Value.hpp           # Type-erased value wrapper
@@ -39,9 +39,6 @@
 ## Quick Start
 
 ```bash
-# Clone and navigate to the project
-cd 8_Final_Assignment
-
 # Run the default use case (Web App)
 make
 
